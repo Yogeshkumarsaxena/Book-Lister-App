@@ -9,7 +9,7 @@ class book {
 
 //UI changes
 
-class ui {
+class UI {
     static insertBooks(){
         const storedBooks = [
             {
@@ -24,7 +24,7 @@ class ui {
             }
         ];
         const book = storedBooks;
-        book.forEach((book) => ui.addBookToList(book))
+        book.forEach((book) => UI.addBookToList(book))
     }
 
     static showAlert(message, alert) {
@@ -66,9 +66,9 @@ class ui {
 }
 
 // Event: Display books
-document.addEventListener('DOMContentLoaded', ui.insertBooks())
+document.addEventListener('DOMContentLoaded', UI.insertBooks())
 
-//Event: add book to ui
+//Event: add book to UI
 document.querySelector('.book-form').addEventListener('submit', (e) => {
     //prevent defaults
     e.preventDefault();
@@ -80,7 +80,7 @@ document.querySelector('.book-form').addEventListener('submit', (e) => {
 
     //validate
     if (title === '' || author === '' || isbn === '' ) {
-        ui.showAlert('Please fill all the fields', 'danger')
+        UI.showAlert('Please fill all the fields', 'danger')
         
     } else {
 
@@ -88,13 +88,13 @@ document.querySelector('.book-form').addEventListener('submit', (e) => {
         var newbook = new book(title, author, isbn);
 
         //show success message
-        ui.showAlert('Book added!', 'success')
+        UI.showAlert('Book added!', 'success')
 
-        //add to ui
-        ui.addBookToList(newbook)
+        //add to UI
+        UI.addBookToList(newbook)
 
         //clear fields
-        ui.clearFields()
+        UI.clearFields()
 
     }
 
@@ -103,7 +103,7 @@ document.querySelector('.book-form').addEventListener('submit', (e) => {
      
 document.querySelector('#book-list').addEventListener('click', (e) => {
     //show remove msg
-    ui.showAlert('Book removed!', 'danger')
+    UI.showAlert('Book removed!', 'danger')
 
-    ui.removeBook(e.target)
+    UI.removeBook(e.target)
 })
