@@ -11,18 +11,8 @@ class book {
 
 class UI {
     static insertBooks(){
-        const storedBooks = [
-            {
-                title: 'HTML',
-                author: 'John Doe',
-                isbn: '1234'
-            },
-            {
-                title: 'Java',
-                author: 'Traversy',
-                isbn: '1454'
-            }
-        ];
+        const storedBooks = store.getBooks();
+        // console.log(storedBooks)
         const book = storedBooks;
         book.forEach((book) => UI.addBookToList(book))
     }
@@ -56,12 +46,43 @@ class UI {
 
     }
     static removeBook(el){
-        console.log(el.parentElement.parentElement.remove())
+        el.parentElement.parentElement.remove()
     }
     static clearFields(){
         document.querySelector('#title').value = ''
         document.querySelector('#author').value = ''
         document.querySelector('#isbn').value = ''
+    }
+}
+// store books
+class store {
+    static getBooks() {
+        var books;
+        
+        if (localStorage.getItem('book') === null) {
+            books = [];
+        } else {
+            books = JSON.parse(localStorage.getItem('book')); 
+        }
+        return books;
+    }
+
+    static addBook(book) {
+        const books = store.getBooks();
+        books.push(book);
+        localStorage.setItem('book', JSON.stringify(books))
+    }
+    static removeBook(isbn) {
+        const books = store.getBooks();
+       
+        books.forEach((book, index) => {
+            if (book.isbn === isbn) {
+            books.splice(index, 1)
+            }
+
+            localStorage.setItem('book', JSON.stringify(books))
+
+        });
     }
 }
 
@@ -93,6 +114,9 @@ document.querySelector('.book-form').addEventListener('submit', (e) => {
         //add to UI
         UI.addBookToList(newbook)
 
+        //add to storage
+        store.addBook(newbook)
+
         //clear fields
         UI.clearFields()
 
@@ -105,5 +129,11 @@ document.querySelector('#book-list').addEventListener('click', (e) => {
     //show remove msg
     UI.showAlert('Book removed!', 'danger')
 
+    //remove form local storage 
+    store.removeBook(e.target.parentElement.previousElementSibling.textContent)
+
+    //remoe from UI
     UI.removeBook(e.target)
+
+    
 })
