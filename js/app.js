@@ -85,6 +85,26 @@ class store {
         });
     }
 }
+//search feature
+let filter = document.getElementById('filter')
+filter.addEventListener('keyup', doFilter)
+
+function doFilter(e){
+    var searchItem = e.target.value.toLowerCase()
+    var getList = document.getElementById('book-list')
+    var bookList = getList.getElementsByTagName('tr')
+    // console.log(item)
+    Array.from(bookList).forEach((arryitem) => {
+        let bookListItem = arryitem.firstElementChild.textContent;
+        
+        if (bookListItem.toLowerCase().indexOf(searchItem) != -1) {
+            arryitem.className = "d-table-row"
+        }
+        else {
+            arryitem.className = "d-none"
+        }
+    })
+}
 
 // Event: Display books
 document.addEventListener('DOMContentLoaded', UI.insertBooks())
